@@ -4,12 +4,19 @@ import pygame
 
 
 class Player(cs.CircleShape):
+    
+    containers = ()
+
     def __init__(self, x, y, radius = PLAYER_RADIUS, rotation = 0):
         self.__x_pos = x
         self.__y_pos = y 
         super().__init__(x, y, radius)
         self.rotation = rotation
+    
+    
+        
 
+    
 
     # in the player class
     def triangle(self):
@@ -40,7 +47,7 @@ class Player(cs.CircleShape):
             dt_m = float(0-dt)
             self.move(dt_m)
 
-            
+
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
