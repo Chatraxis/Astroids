@@ -1,7 +1,8 @@
 import pygame
 from constants import *
 from player import *
-
+from astroid import *
+from asteroidfield import *
 
 
 
@@ -19,11 +20,13 @@ def main():
 
     drawable = pygame.sprite.Group()
     updateable = pygame.sprite.Group()
+    astroids =  pygame.sprite.Group()
     
-    
+    AsteroidField.containers = (updateable)
+    Asteroid.containers = (drawable, updateable, astroids)
     Player.containers = (drawable, updateable)
     P1 = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-    
+    AF = AsteroidField()
 
 
     while number != 0:
@@ -32,6 +35,10 @@ def main():
                 return
         pygame.Surface.fill(screen, color="black")
         updateable.update(dt)
+        for astr in astroids:
+            if P1.collision(astr):
+                print("Game Over!")
+                raise SystemExit
 
         for obj in drawable:
             obj.draw(screen)
