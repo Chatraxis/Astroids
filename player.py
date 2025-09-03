@@ -7,12 +7,13 @@ class Player(cs.CircleShape):
     
     containers = ()
 
-    def __init__(self, x, y, radius = PLAYER_RADIUS, rotation = 0):
+    def __init__(self, x, y, radius = PLAYER_RADIUS, rotation = 0, timer = 0):
         self.__x_pos = x
         self.__y_pos = y 
         super().__init__(x, y, radius)
         self.rotation = rotation
-    
+        self.timer = timer
+
     
         
 
@@ -35,6 +36,7 @@ class Player(cs.CircleShape):
     
     def update(self, dt):
         keys = pygame.key.get_pressed()
+        self.timer -= dt
 
         if keys[pygame.K_a]:
             dt_m = float(0-dt)
@@ -47,7 +49,11 @@ class Player(cs.CircleShape):
             dt_m = float(0-dt)
             self.move(dt_m)
         if keys[pygame.K_SPACE]:
-            self.shot(dt)
+            if self.timer > 0:
+                pass
+            else:
+                self.shot(dt)
+                self.timer = PLAYER_SHOOT_COOLDOWN
 
 
     def move(self, dt):
