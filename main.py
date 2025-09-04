@@ -27,7 +27,7 @@ def main():
     AsteroidField.containers = (updateable)
     Asteroid.containers = (drawable, updateable, astroids)
     Player.containers = (drawable, updateable)
-    Shot.containers = (drawable, updateable)
+    Shot.containers = (shots, drawable, updateable)
 
     P1 = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     AF = AsteroidField()
@@ -40,6 +40,10 @@ def main():
         pygame.Surface.fill(screen, color="black")
         updateable.update(dt)
         for astr in astroids:
+            for bul in shots:
+                if astr.collision(bul):
+                    astr.split()
+                    pygame.sprite.Sprite.kill(bul)
             if P1.collision(astr):
                 print("Game Over!")
                 raise SystemExit
